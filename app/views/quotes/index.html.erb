@@ -1,0 +1,90 @@
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 text-white py-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      İlham Veren 
+      <span class="bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
+        Sözler
+      </span>
+    </h1>
+    <p class="text-xl md:text-2xl mb-8 text-purple-100">
+      Hayatınızı değiştirecek sözleri keşfedin, paylaşın ve ilham alın
+    </p>
+    
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <div class="text-3xl font-bold"><%= @quote_count %></div>
+        <div class="text-purple-200">Toplam Söz</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <div class="text-3xl font-bold"><%= Quote.jokes.count %></div>
+        <div class="text-purple-200">Komik Sözler</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <div class="text-3xl font-bold"><%= Quote.inspiring.count %></div>
+        <div class="text-purple-200">İlham Verici</div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <%= link_to new_quote_path, class: "bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-all transform hover:scale-105" do %>
+        ✨ Yeni Söz Ekle
+      <% end %>
+      
+      <%= link_to random_quotes_path, class: "bg-purple-500/30 border border-white/30 text-white px-8 py-4 rounded-full font-semibold hover:bg-purple-500/50 transition-all" do %>
+        🎲 Rastgele Söz
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Filter Tabs -->
+<section class="bg-white shadow-sm sticky top-16 z-30">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center space-x-1 py-4 overflow-x-auto">
+      <%= link_to root_path, class: "inline-flex items-center px-6 py-2 rounded-full text-sm font-medium #{'bg-purple-100 text-purple-700' if request.path == root_path} #{'text-gray-500 hover:text-gray-700' unless request.path == root_path} transition-colors whitespace-nowrap" do %>
+        🏠 Tümü
+      <% end %>
+      
+      <%= link_to jokes_quotes_path, class: "inline-flex items-center px-6 py-2 rounded-full text-sm font-medium #{'bg-yellow-100 text-yellow-700' if request.path == jokes_quotes_path} #{'text-gray-500 hover:text-gray-700' unless request.path == jokes_quotes_path} transition-colors whitespace-nowrap" do %>
+        😂 Komik
+      <% end %>
+      
+      <%= link_to inspiring_quotes_path, class: "inline-flex items-center px-6 py-2 rounded-full text-sm font-medium #{'bg-green-100 text-green-700' if request.path == inspiring_quotes_path} #{'text-gray-500 hover:text-gray-700' unless request.path == inspiring_quotes_path} transition-colors whitespace-nowrap" do %>
+        💫 İlham Verici
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Quotes Grid -->
+<section class="py-12">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <% if @quotes.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% @quotes.each do |quote| %>
+          <%= render 'quote_card', quote: quote %>
+        <% end %>
+      </div>
+      
+      <!-- Load More Button -->
+      <div class="text-center mt-12">
+        <button class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-medium hover:from-purple-600 hover:to-pink-600 transition-all">
+          Daha Fazla Yükle
+        </button>
+      </div>
+    <% else %>
+      <!-- Empty State -->
+      <div class="text-center py-20">
+        <div class="text-6xl mb-6">🤷‍♀️</div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Henüz hiç söz yok!</h3>
+        <p class="text-gray-600 mb-8">İlk söz sizden gelsin, topluluğumuzu büyütelim.</p>
+        <%= link_to new_quote_path, class: "bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-medium hover:from-purple-600 hover:to-pink-600 transition-all" do %>
+          İlk Sözü Ekle
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
